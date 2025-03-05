@@ -19,6 +19,7 @@ frappe.query_reports["Stock Re-order Avg Sale"] = {
                     data-item_code="${data.item_code}" 
                     data-item_name="${data.item_name}" 
                     data-available_qty="${data.available_qty}"
+                    data-avg_monthly_sale="${data.avg_monthly_sale}"
                     data-supplier="${data.supplier}">`;
         }
         return default_formatter(value, row, column, data);
@@ -138,7 +139,7 @@ function create_doc(doctype) {
             item_code: $(this).data("item_code"),
             description: $(this).data("item_name"),
             //qty: $(this).data("available_qty"),
-            qty: Math.max(1, $(this).data("available_qty") || 0),
+            qty: Math.max(1, $(this).data("avg_monthly_sale") || 0),
             warehouse: "Finished Goods - THSD", //when go live Finished Goods - THSD
             conversion_factor: 1,
             uom: "Nos"
@@ -185,7 +186,7 @@ function create_po_doc() {
             item_code: $(this).data("item_code"),
             description: $(this).data("item_name"),
             //qty: $(this).data("available_qty"),
-            qty: Math.max(1, $(this).data("available_qty") || 0),
+            qty: Math.max(1, $(this).data("avg_monthly_sale") || 0),
             schedule_date: frappe.datetime.add_days(frappe.datetime.nowdate(), 7),
             supplier: $(this).data("supplier")
         });
